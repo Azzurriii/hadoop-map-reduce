@@ -36,3 +36,22 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Jetb
+.idea/
+.vscode/
+.DS_Store
+
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Node
+node_modules/
+
+# Python
+venv/
+.env
