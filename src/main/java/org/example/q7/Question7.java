@@ -1,5 +1,3 @@
-// Question7.java - Image Histogram MapReduce Job
-
 import java.io.IOException;
 import java.util.StringTokenizer;
 
@@ -81,7 +79,7 @@ public class Question7 {
         job.setJarByClass(Question7.class);
 
         job.setMapperClass(HistogramMapper.class);
-        job.setCombinerClass(HistogramReducer.class);  // Can use reducer as combiner
+        job.setCombinerClass(HistogramReducer.class);
         job.setReducerClass(HistogramReducer.class);
 
         job.setOutputKeyClass(IntWritable.class);

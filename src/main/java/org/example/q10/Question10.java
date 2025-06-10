@@ -1,5 +1,3 @@
-// Question10.java - RIGHT OUTER JOIN MapReduce Job
-
 import java.io.IOException;
 import java.util.*;
 
