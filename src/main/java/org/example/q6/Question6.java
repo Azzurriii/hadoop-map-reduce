@@ -38,15 +38,19 @@ public class Question6 {
             }
 
             try {
+                // Input format is "point_name \t coordinate"
                 String[] parts = line.split("\t");
                 if (parts.length == 2) {
                     String point = parts[0].trim();
                     int coordinate = Integer.parseInt(parts[1].trim());
 
+                    // Calculate the distance from the query point
                     int dist = Math.abs(coordinate - queryPoint);
 
                     distance.set(dist);
                     pointName.set(point);
+                    // Emit the distance as key and point name as value
+                    // This will group points by their distance from the query point
                     context.write(distance, pointName);
                 }
             } catch (NumberFormatException e) {
@@ -65,14 +69,17 @@ public class Question6 {
 
             List<String> points = new ArrayList<>();
 
+            // Collect all points that have the same distance
             for (Text value : values) {
                 points.add(value.toString());
             }
 
+            // Sort the points alphabetically
             Collections.sort(points);
 
             String pointsList = String.join(" ", points);
 
+            // Set the result as a space-separated string of point names
             result.set(pointsList);
             context.write(key, result);
         }
