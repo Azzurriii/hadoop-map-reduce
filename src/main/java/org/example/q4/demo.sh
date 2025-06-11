@@ -23,13 +23,13 @@ case $TEST_CASE in
         hdfs dfs -cat $HDFS_OUTPUT_DIR/test1/part-r-00000
         ;;
     "test2")
-        echo "Running test2 with query point 15..."
+        echo "Running test2"
         hadoop jar question4.jar Question4 $HDFS_INPUT_DIR/test2 $HDFS_OUTPUT_DIR/test2
         echo "Results:"
         hdfs dfs -cat $HDFS_OUTPUT_DIR/test2/part-r-00000
         ;;
     "test3")
-        echo "Running test3 with query point 50..."
+        echo "Running test3"
         hadoop jar question4.jar Question4 $HDFS_INPUT_DIR/test3 $HDFS_OUTPUT_DIR/test3
         echo "Results:"
         hdfs dfs -cat $HDFS_OUTPUT_DIR/test3/part-r-00000

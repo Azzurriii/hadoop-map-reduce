@@ -1,5 +1,3 @@
-// Question4.java - Group Center and Centroid MapReduce Job
-
 import java.io.IOException;
 import java.util.*;
 
