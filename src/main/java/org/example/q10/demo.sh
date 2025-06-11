@@ -1,23 +1,41 @@
-# Upload file to HDFS
-hdfs dfs -mkdir -p /user/vothanh/question10/input/test1
-hdfs dfs -mkdir -p /user/vothanh/question10/input/test2
-hdfs dfs -mkdir -p /user/vothanh/question10/input/test3
-hdfs dfs -put test/test1/input/* /user/vothanh/question10/input/test1
-hdfs dfs -put test/test2/input/* /user/vothanh/question10/input/test2
-hdfs dfs -put test/test3/input/* /user/vothanh/question10/input/test3
+#!/bin/bash
 
-# Remove output directory
-hdfs dfs -rm -r /user/vothanh/question10/output
-# Create output directory
-hdfs dfs -mkdir -p /user/vothanh/question10/output
+# Question 10 demo script
+# Usage: ./demo.sh [test1|test2|test3]
 
+USER=vothanh
+HDFS_DIR=/user/$USER
+HDFS_INPUT_DIR=$HDFS_DIR/question10/input
+HDFS_OUTPUT_DIR=$HDFS_DIR/question10/output
 
-# Run MapReduce Job
-hadoop jar question10.jar Question10 /user/vothanh/question10/input/test1 /user/vothanh/question10/output/test1
-hadoop jar question10.jar Question10 /user/vothanh/question10/input/test2 /user/vothanh/question10/output/test2
-hadoop jar question10.jar Question10 /user/vothanh/question10/input/test3 /user/vothanh/question10/output/test3
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 [test1|test2|test3]"
+    exit 1
+fi
 
-# View result
-hdfs dfs -cat /user/vothanh/question10/output/test1/part-r-00000
-hdfs dfs -cat /user/vothanh/question10/output/test2/part-r-00000
-hdfs dfs -cat /user/vothanh/question10/output/test3/part-r-00000
+TEST_CASE=$1
+
+case $TEST_CASE in
+    "test1")
+        echo "Running test1"
+        hadoop jar question10.jar Question10 $HDFS_INPUT_DIR/test1 $HDFS_OUTPUT_DIR/test1
+        echo "Results:"
+        hdfs dfs -cat $HDFS_OUTPUT_DIR/test1/part-r-00000
+        ;;
+    "test2")
+        echo "Running test2"
+        hadoop jar question10.jar Question10 $HDFS_INPUT_DIR/test2 $HDFS_OUTPUT_DIR/test2
+        echo "Results:"
+        hdfs dfs -cat $HDFS_OUTPUT_DIR/test2/part-r-00000
+        ;;
+    "test3")
+        echo "Running test3"
+        hadoop jar question10.jar Question10 $HDFS_INPUT_DIR/test3 $HDFS_OUTPUT_DIR/test3
+        echo "Results:"
+        hdfs dfs -cat $HDFS_OUTPUT_DIR/test3/part-r-00000
+        ;;
+    *)
+        echo "Invalid test case. Use test1, test2, or test3"
+        exit 1
+        ;;
+esac

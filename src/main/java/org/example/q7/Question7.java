@@ -16,36 +16,42 @@ public class Question7 {
 
     public static class HistogramMapper extends Mapper<LongWritable, Text, IntWritable, IntWritable> {
 
-        private IntWritable pixelValue = new IntWritable();
-        private IntWritable one = new IntWritable(1);
+    private IntWritable pixelValue = new IntWritable();
+    private IntWritable one = new IntWritable(1);
 
-        @Override
-        public void map(LongWritable key, Text value, Context context)
-                throws IOException, InterruptedException {
+    @Override
+    public void map(LongWritable key, Text value, Context context)
+            throws IOException, InterruptedException {
 
-            String line = value.toString().trim();
-            if (line.isEmpty()) {
-                return;
-            }
+        String line = value.toString().trim();
+        if (line.isEmpty()) {
+            return;
+        }
 
-            // Split line by spaces or tabs to get individual pixels
-            StringTokenizer tokenizer = new StringTokenizer(line, " \t");
+        // Tokenize the line to extract pixel values
+        StringTokenizer tokenizer = new StringTokenizer(line, " \t");
 
-            while (tokenizer.hasMoreTokens()) {
-                try {
-                    String token = tokenizer.nextToken().trim();
-                    if (!token.isEmpty()) {
-                        int pixel = Integer.parseInt(token);
-                        pixelValue.set(pixel);
-                        context.write(pixelValue, one);
+        while (tokenizer.hasMoreTokens()) {
+            try {
+                String token = tokenizer.nextToken().trim();
+                if (!token.isEmpty()) {
+                    int pixel = Integer.parseInt(token);
+                    
+                    // Validate pixel value range (0-255 for typical 8-bit images)
+                    if (pixel < 0 || pixel > 255) {
+                        System.err.println("Invalid pixel value: " + pixel + " (must be 0-255)");
+                        continue;
                     }
-                } catch (NumberFormatException e) {
-                    // Skip invalid pixels
+                    
+                    pixelValue.set(pixel);
+                    context.write(pixelValue, one);
                 }
+            } catch (NumberFormatException e) {
+                System.err.println("Cannot parse token as integer: " + tokenizer.toString());
             }
         }
     }
-
+}
     public static class HistogramReducer extends Reducer<IntWritable, IntWritable, IntWritable, IntWritable> {
 
         private IntWritable count = new IntWritable();
@@ -56,7 +62,7 @@ public class Question7 {
 
             int sum = 0;
 
-            // Count all occurrences of this pixel value
+            // Count all occurrences
             for (IntWritable value : values) {
                 sum += value.get();
             }

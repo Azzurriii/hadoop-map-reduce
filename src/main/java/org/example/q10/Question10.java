@@ -28,7 +28,7 @@ public class Question10 {
             }
 
             try {
-                String[] parts = line.split("\\s+");
+                String[] parts = line.split("\t", 3);
                 if (parts.length == 3) {
                     String table = parts[0].trim();
                     String itemKey = parts[1].trim();
