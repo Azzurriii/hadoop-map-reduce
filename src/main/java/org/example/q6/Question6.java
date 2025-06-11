@@ -38,8 +38,9 @@ public class Question6 {
             }
 
             try {
-                // Input format is "point_name \t coordinate"
+                // Split the line into point name and coordinate
                 String[] parts = line.split("\t");
+
                 if (parts.length == 2) {
                     String point = parts[0].trim();
                     int coordinate = Integer.parseInt(parts[1].trim());
@@ -49,8 +50,7 @@ public class Question6 {
 
                     distance.set(dist);
                     pointName.set(point);
-                    // Emit the distance as key and point name as value
-                    // This will group points by their distance from the query point
+                    // Emit <distance, pointName>
                     context.write(distance, pointName);
                 }
             } catch (NumberFormatException e) {
