@@ -46,7 +46,7 @@ public class Question10 {
                     context.write(outputKey, outputValue);
                 }
             } catch (Exception e) {
-                // Skip invalid lines
+                System.err.println("Error parsing line: " + line);
             }
         }
     }
